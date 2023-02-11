@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 
 import { deleteMovie } from '../actions/movieActions';
 import { addFavorite } from '../actions/favoritesActions';
+import { removeFavorite } from '../actions/favoritesActions';
 
 const Movie = (props) => {
     const { id } = useParams();
@@ -12,6 +13,7 @@ const Movie = (props) => {
     const movie = props.movies.find(movie=>movie.id===Number(id));
     const handleDelete = () => {
         props.deleteMovie(movie.id)
+        props.removeFavorite(movie.id)
         push("/movies")
     };
     const handleAddFav = () => {
@@ -47,7 +49,7 @@ const Movie = (props) => {
                         </section>
                         
                         <section>
-                            {!props.favorites.includes(movie) ? <span className="m-2 btn btn-dark" onClick={handleAddFav}>Favorite</span> : <span>This is one of your favorites.</span>}
+                            {!props.favorites.includes(movie) ? <span className="m-2 btn btn-dark" onClick={handleAddFav}>Favorite</span> : <span>favorite: {String.fromCodePoint(0x2713)}</span>}
                             
                             <span className="delete"><input type="button" className="m-2 btn btn-danger" value="Delete" onClick={handleDelete}/></span>
                         </section>
@@ -65,4 +67,4 @@ const mapStateToProps = state => {
    }
 }
 
-export default connect(mapStateToProps, {deleteMovie, addFavorite})(Movie);
+export default connect(mapStateToProps, {deleteMovie, addFavorite, removeFavorite})(Movie);
